@@ -7,7 +7,7 @@ document.getElementById('logoutbutton').addEventListener('click', function(e) {f
 function fetchlogin(evt) {
     evt.preventDefault()
     var fd = new FormData();
-    fd.append('username', user.value);
+    fd.append('username', loginuser.value);
     fd.append('password', password.value);
     fetch('http://localhost/apitesting/api/api.php?action=login', 
     {
@@ -35,7 +35,7 @@ function fetchlogin(evt) {
         headers.json().then(function(body) {
             // BUG is this a 203 or 200?
             localStorage.setItem('csrf', body.Hash);
-            localStorage.setItem('username', user.value);
+            localStorage.setItem('username', loginuser.value);
             localStorage.setItem('csrf', body.Hash);
             localStorage.setItem('email', body.email);
             localStorage.setItem('Firstname', body.Firstname);
