@@ -13,8 +13,6 @@ use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-
-
 $request = Request::createFromGlobals();
 $response = new Response();
 $session = new Session(new NativeSessionStorage(), new AttributeBag());
@@ -37,45 +35,49 @@ if(empty($request->query->all())) {
     if($session->get('sessionObj')->is_rate_limited()) {
         $response->setStatusCode(429);
     }
-    if($request->getMethod() == 'POST') {             // register, login
+    if($request->getMethod() == 'POST') {             // register
         if($request->query->getAlpha('action') == 'register') {
-            if($request->request->has('username') and
-                $request->request->has('password') and
-                $request->request->has('password2') and
-                $request->request->has('email') and
-                $request->request->has('Firstname') and
-                $request->request->has('Lastname') and
-                $request->request->has('phone') and
-                $request->request->has('postcode')) {
-               if(($request->request->get('password')) == ($request->request->get('password'))){
-                $res = $session->get('sessionObj')->register(
-                    $request->request->getAlpha('username'),
-                    $request->request->get('password'),
-                      $request->request->get('email'),
-                    $request->request->get('Firstname'),
-                    $request->request->get('Lastname'),
-                    $request->request->get('phone'),                   
-                    $request->request->get('postcode')
-                );
-                if($res === true) {
-                    $response->setStatusCode(201);
-                } elseif($res === false) {
-                    $response->setStatusCode(403);
-                } elseif($res === 0) {
-                    $response->setStatusCode(500);
+            if($request->request->has('username')) {
+                $res = $sqsdb->userExists($request->request->get('username'));
+                if($res) {
+                    $response->setStatusCode(418);
+                } else {
+                    if($request->request->has('username') and
+                    $request->request->has('email') and
+                    $request->request->has('phone') and
+                    $request->request->has('postcode') and
+                    $request->request->has('password') and
+                    $request->request->has('password2') ) {
+                    $res = $session->get('sessionObj')->register(
+                        $request->request->getAlpha('username'),
+                        $request->request->get('email'),
+                        $request->request->get('phone'),
+                        $request->request->get('postcode'), 
+                        $request->request->get('password'),    
+                       $request->request->get('csrf')
+                    );
+                    if($res === true) {
+                        $response->setStatusCode(201);
+                    } elseif($res === false) {
+                        $response->setStatusCode(403);
+                    } elseif($res === 0) {
+                        $response->setStatusCode(500);
+                    }
+                }
+                }
             }
-            
-            }else { $response->setStatusCode(500);}
-            
-            } else {
-                $response->setStatusCode(500);
+        
+           else {
+                $response->setStatusCode(400);
             }
-        } elseif($request->query->getAlpha('action') == 'login') {
-            if($request->request->has('username') and
-                $request->request->has('password')) {
+        }
+       elseif($request->query->getAlpha('action') == 'login') {
+            if($request->request->has('username') and $request->request->has('password'))
+             {
                 $res = $session->get('sessionObj')->login($request->request->get('username'),
                     $request->request->get('password'));
                 if ($res === false) {
+                    $response->setContent(json_encode($request->request));                     
                     $response->setStatusCode(401);
                 } elseif(count($res) == 1) {
                     $response->setStatusCode(203);
@@ -85,35 +87,77 @@ if(empty($request->query->all())) {
                     $response->setContent(json_encode($res));
                 }
             } else {
-                $response->setStatusCode(400);
+                $response->setContent(json_encode($request));                
+                $response->setStatusCode(404);
             }
-        } else {
+
+        } 
+        elseif($request->query->getAlpha('action') == 'isloggedin') {
+            $res = $session->get('sessionObj')->isLoggedIn();
+
+            if($res == false) {
+                $response->setStatusCode(403);
+            } elseif(count($res) == 1) {
+                $response->setStatusCode(203);
+                $response->setContent(json_encode($res));
+            }
+            
+        }
+        elseif($request->query->getAlpha('action') == 'update') {
+            $res = $session->get('sessionObj')->isLoggedIn();
+            if(($request->request->has('username')) && ( count($res) == 1)) {
+                $res = $sqsdb->userExists($request->request->get('username'));
+                if($res) {
+                    $response->setStatusCode(400);
+                }
+                else {
+                    if($request->request->has('upusername') and
+                    $request->request->has('upemail') and
+                    $request->request->has('upphone') and
+                    $request->request->has('uppassword2') and
+                    $request->request->has('uppostcode') and
+                    $request->request->has('uppassword') ) {
+                    $res = $session->get('sessionObj')->update(
+                        $request->request->getAlpha('upusername'),
+                        $request->request->get('upemail'),
+                        $request->request->get('upphone'),
+                        $request->request->get('uppostcode'), 
+                        $request->request->get('uppassword'),    
+                       $request->request->get('upcsrf')
+                    );
+                    if($res === true) {
+                        $response->setStatusCode(201);
+                    } elseif($res === false) {
+                        $response->setStatusCode(403);
+                    } elseif($res === 0) {
+                        $response->setStatusCode(500);
+                    }
+                }
+                }
+            }
+           else {
+                $response->setStatusCode(402);
+            }
+        }
+        else {
             $response->setStatusCode(400);
         }
     }
     if($request->getMethod() == 'GET') {              // showqueu, accountexists
         if($request->query->getAlpha('action') == 'accountexists') {
             if($request->query->has('username')) {
-                $res = $sqsdb->userExists($request->query->getInt('username'));
+                $res = $sqsdb->userExists($request->query->get('username'));
                 if($res) {
                     $response->setStatusCode(400);
                 } else {
                     $response->setStatusCode(204);
                 }
             }
-        } elseif($request->query->getAlpha('action') == 'isloggedin') {
-            $res = $session->get('sessionObj')->isLoggedIn();
-            if($res == false) {
-                $response->setStatusCode(403);
-            } elseif(count($res) == 1) {
-                $response->setStatusCode(200);
-                $response->setContent(json_encode($res));
-            }
-        } elseif($request->query->getAlpha('action') == 'logout') {
+        }  elseif($request->query->getAlpha('action') == 'logout') {
             $session->get('sessionObj')->logout();
             $response->setStatusCode(200);
         } else {
-            $response->setStatusCode(400);
+            $response->setStatusCode(418);
         }
     }
     if($request->getMethod() == 'DELETE') {           // delete queue, delete comment
@@ -125,6 +169,8 @@ if(empty($request->query->all())) {
 } else {
     $redirect = new RedirectResponse($_SERVER['REQUEST_URI']);
 }
+
+// Do logging just before sending response?
 
 $response->send();
 

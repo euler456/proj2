@@ -4,18 +4,21 @@
         // attributes will be stored in session, but always test incognito
         private $last_visit = 0;
         private $last_visits = Array();
-        private $customerID = 5;
+
+//        private $user_id = 0;
+//        private $user_Username;
+//        private $user_Email;
+//        private $user_Phone;
+//        private $user_token;
+
+
+        private $CustomerID = 0;
         private $username;
-        private $password;
         private $email;
-        //private $user_privilege = 0;
-        private $Lastname;
         private $phone;
-        private $postcode;
         private $user_token;
 
-
-        private $origin;
+//        private $origin;
 
         public function __construct() {
             $this->origin = 'http://localhost/';
@@ -37,43 +40,49 @@
             if($res === false) {
                 return false;
             } elseif(count($res) > 1) {
-                $this->customerID = $res['customerID'];
-              //  $this->user_privilege = 1;
+           $this->CustomerID = $res['CustomerID'];
+
                 $this->user_token = md5(json_encode($res));
                 return Array('username'=>$res['username'],
                 'email'=>$res['email'],
-                'Firstname'=>$res['Firstname'],
-                'Lastname'=>$res['Lastname'],
-                'password'=>$res['password'],
                 'phone'=>$res['phone'],
-                'postcode'=>$res['postcode'],
                 'Hash'=>$this->user_token);
             } elseif(count($res) == 1) {
-                $this->username = $res['username'];
+                $this->CustomerID = $res['CustomerID'];
                 $this->user_token = md5(json_encode($res));
                 return Array('Hash'=>$this->user_token);
             }
         }
-        public function register($username, $email, $Firstname, $Lastname, $password,$phone,$postcode) {
+        public function register($username, $email, $phone,$postcode,$password, $csrf) {
             global $sqsdb;
-                if($sqsdb->registerUser($this->$username, $email, $Firstname, $Lastname, $password,$phone,$postcode)) {
+                if($sqsdb->registerUser($this->CustomerID, $username,  $email, $phone,$postcode, $password)) {
                     return true;
                 } else {
                     return 0;
                 }
-    
+            }
+            public function update($upusername, $upemail, $upphone,$uppostcode,$uppassword, $upcsrf) {
+                global $sqsdb;
+                    if($sqsdb->updateprofile($this->CustomerID, $upusername,  $upemail, $upphone,$uppostcode, $uppassword)) {
+                        return true;
+                    } else {
+                        return 0;
+                    }
+                }    
+
+            
             // call the dbobject for SQL
-        }
+        
         public function isLoggedIn() {
-            if($this->customerID === 0) {
+            if($this->CustomerID === 0) {
                 return false;
             } else {
                 return Array('Hash'=>$this->user_token);
             }
         }
         public function logout() {
-            $this->customerID = 0;
-         
+            $this->CustomerID = 0;
+//            $this->user_privilege = 0;
         }
         public function validate($type, $dirty_string) {
         }

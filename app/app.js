@@ -1,14 +1,17 @@
 document.getElementById('loginform').addEventListener('submit', function(e) {fetchlogin(e)});
 document.getElementById('registerform').addEventListener('submit', function(e) {fetchregister(e)});
+document.getElementById('updateform').addEventListener('submit', function(e) {fetchupdate(e)});
 document.getElementById('accountexists').addEventListener('input', function(e) {fetchaccountexists(e)});
 document.getElementById('linkisloggedin').addEventListener('click', function(e) {fetchisloggedin(e)});
 document.getElementById('logoutbutton').addEventListener('click', function(e) {fetchlogout(e)});
+//document.getElementById('Ordering').addEventListener('submit', function(e) {fetchOrdering(e)});
 
 function fetchlogin(evt) {
     evt.preventDefault()
     var fd = new FormData();
     fd.append('username', loginuser.value);
-    fd.append('password', password.value);
+    fd.append('password', loginpass.value);
+    
     fetch('http://localhost/apitesting/api/api.php?action=login', 
     {
         method: 'POST',
@@ -20,12 +23,10 @@ function fetchlogin(evt) {
             console.log('login failed');
             localStorage.removeItem('csrf');
             localStorage.removeItem('username');
-            localStorage.removeItem('email');
-            localStorage.removeItem('Firstname');
-            localStorage.removeItem('Lastname');
-            localStorage.removeItem('password');
             localStorage.removeItem('phone');
+            localStorage.removeItem('email');
             localStorage.removeItem('postcode');
+            localStorage.removeItem('CustomerID');
             return;
         }
         if(headers.status == 203) {
@@ -35,16 +36,11 @@ function fetchlogin(evt) {
         headers.json().then(function(body) {
             // BUG is this a 203 or 200?
             localStorage.setItem('csrf', body.Hash);
-            localStorage.setItem('username', loginuser.value);
-            localStorage.setItem('csrf', body.Hash);
+            localStorage.setItem('CustomerID',loginuser.value);
+            localStorage.setItem('username', body.username);
             localStorage.setItem('email', body.email);
-            localStorage.setItem('Firstname', body.Firstname);
-            localStorage.setItem('Lastname', body.Lastname);
-            localStorage.setItem('password', body.password);
             localStorage.setItem('phone', body.phone);
             localStorage.setItem('postcode', body.postcode);
-            localStorage.setItem('password2', body.password);
-
         })
     })
     .catch(function(error) {
@@ -55,14 +51,11 @@ function fetchregister(evt) {
     evt.preventDefault();
     var fd = new FormData();
     fd.append('username', regusername.value);
-    //fd.append('color', regcolor.value.substring(1)); lop off # in hex code
-    fd.append('email', regemail.value);
-    fd.append('Firstname', regFirstname.value);
-    fd.append('Lastname', regLastname.value);
-    fd.append('password', regpassword.value);
-    fd.append('password2', regpassword2.value);
+    fd.append('email', regemail.value); //lop off # in hex code
     fd.append('phone', regphone.value);
     fd.append('postcode', regpostcode.value);
+    fd.append('password', regpassword.value);
+    fd.append('password2', regpassword2.value);
     fd.append('csrf', localStorage.getItem('csrf'));
     fetch('http://localhost/apitesting/api/api.php?action=register', 
     {
@@ -72,15 +65,47 @@ function fetchregister(evt) {
     })
     .then(function(headers) {
         if(headers.status == 400) {
-            console.log('register failed');
+            console.log('user exists');
             return;
         }
+     
         if(headers.status == 201) {
             console.log('registration updated');
             return;
         }
+       
     })
-    .catch(error => console.log(error));
+    .catch(function(error) {console.log(error)});
+}
+function fetchupdate(evt) {
+    evt.preventDefault();
+    var fd = new FormData();
+    fd.append('upusername', upusername.value);
+    fd.append('upemail', upemail.value); //lop off # in hex code
+    fd.append('upphone', upphone.value);
+    fd.append('uppostcode', uppostcode.value);
+    fd.append('uppassword', uppassword.value);
+    fd.append('uppassword2', uppassword2.value);
+    fd.append('upcsrf', localStorage.getItem('csrf'));
+    fetch('http://localhost/apitesting/api/api.php?action=update', 
+    {
+        method: 'POST',
+        body: fd,
+        credentials: 'include'
+    })
+    .then(function(headers) {
+        if(headers.status == 400) {
+            console.log('user exists');
+            return;
+        }
+     
+        if(headers.status == 201) {
+            console.log(' updated');
+            return;
+        }
+       
+    })
+    .catch(function(error) {console.log(error)});
 }
 function fetchaccountexists(evt) {
     if(evt.srcElement.value.length > 3) {
@@ -102,13 +127,13 @@ function fetchaccountexists(evt) {
                 console.log(body);
             })
         })
-        .catch(error => console.log(error));
+        .catch(function(error) {console.log(error)});
     }
 }
 function fetchisloggedin(evt) {
     fetch('http://localhost/apitesting/api/api.php?action=isloggedin', 
     {
-        method: 'GET',
+        method: 'POST',
         credentials: 'include'
     })
     .then(function(headers) {
@@ -117,18 +142,16 @@ function fetchisloggedin(evt) {
             localStorage.removeItem('csrf');
             localStorage.removeItem('username');
             localStorage.removeItem('email');
-            localStorage.removeItem('Firstname');
-            localStorage.removeItem('Lastname');
-            localStorage.removeItem('password');
             localStorage.removeItem('phone');
             localStorage.removeItem('postcode');
+            localStorage.removeItem('CustomerID');
             return;
         }
         headers.json().then(function(body) {
             localStorage.setItem('csrf', body.Hash);
         })
     })
-    .catch(error => console.log(error));
+    .catch(function(error) {console.log(error)});
 }
 function fetchlogout(evt) {
     fetch('http://localhost/apitesting/api/api.php?action=logout', 
@@ -143,12 +166,9 @@ function fetchlogout(evt) {
         localStorage.removeItem('csrf');
         localStorage.removeItem('username');
         localStorage.removeItem('email');
-        localStorage.removeItem('Firstname');
-        localStorage.removeItem('Lastname');
-        localStorage.removeItem('password'); 
-        localStorage.removeItem('phone');      
-        localStorage.removeItem('postcode');   
-
+        localStorage.removeItem('phone');
+        localStorage.removeItem('postcode');
+        localStorage.removeItem('CustomerID');    
     })
-    .catch(error => console.log(error));
+    .catch(function(error) {console.log(error)});
 }
