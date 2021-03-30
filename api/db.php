@@ -47,6 +47,16 @@
                 return false;
             }
         }
+        function userid($c) {
+            $sql = "SELECT CustomerID FROM customer WHERE username = :username";
+            $stmt = $this->dbconn->prepare($sql);
+            $stmt->bindParam(':username', $c, PDO::PARAM_STR);
+            $stmt->execute();
+            $result=$stmt->fetchAll();
+            return $result;
+           
+            
+        }
         function registerUser($CustomerID, $username, $email, $phone, $postcode, $password) {
             // Retister user into system, assume validation has happened.
             // return UID created or false if fail
@@ -71,7 +81,8 @@
                 return false;
             }
         }
-        function updateprofile($CustomerID, $upusername, $upemail, $upphone, $uppostcode, $uppassword) {
+   
+        function updateprofile($CustomerID ,$username, $email, $phone, $postcode, $password) {
             // Retister user into system, assume validation has happened.
             // return UID created or false if fail
 //            $sql = "UPDATE customer SET Username = :Username, Pass = :Pass, Email = :Email, Phone = :Phone=1 WHERE CustomerID = :CustomerID";
@@ -80,15 +91,15 @@
 
 //            $sql = "INSERT INTO customer(CustomerID,Username,Pass,Email,Phone)  VALUES (:CustomerID,:Username,:Pass,:Email, :Phone)";
            // $currentuserid = "SELECT CustomerID FROM customer WHERE username = '$username'";
-            $sql = "UPDATE customer SET upusername = :upusername, upemail = :upemail, upphone = :upphone, uppostcode = :uppostcode, uppassword = :uppassword WHERE  CustomerID = :CustomerID ";
+           $sql = "UPDATE customer SET username = :username,password = :password , email = :email, phone = :phone, postcode = :postcode WHERE CustomerID = :CustomerID";
             $stmt = $this->dbconn->prepare($sql);
 //            $stmt->bindParam(':CustomerID', $lastCustID, PDO::PARAM_INT);
-            $stmt->bindParam(':upusername', $upusername, PDO::PARAM_STR);
-            $stmt->bindParam(':upemail', $upemail, PDO::PARAM_STR);
-            $stmt->bindParam(':upphone', $upphone, PDO::PARAM_INT);      
-            $stmt->bindParam(':uppostcode', $uppostcode, PDO::PARAM_INT);  
-            $stmt->bindParam(':uppassword', $uppassword, PDO::PARAM_STR);           
-
+            $stmt->bindParam(':CustomerID', $CustomerID, PDO::PARAM_INT);
+            $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+            $stmt->bindParam(':password', $password, PDO::PARAM_STR);        
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmt->bindParam(':phone', $phone, PDO::PARAM_INT);      
+            $stmt->bindParam(':postcode', $postcode, PDO::PARAM_INT);  
             $result = $stmt->execute();
             if($result === true) {
                 return true;

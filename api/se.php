@@ -41,7 +41,6 @@
                 return false;
             } elseif(count($res) > 1) {
            $this->CustomerID = $res['CustomerID'];
-
                 $this->user_token = md5(json_encode($res));
                 return Array('username'=>$res['username'],
                 'email'=>$res['email'],
@@ -61,9 +60,9 @@
                     return 0;
                 }
             }
-            public function update($upusername, $upemail, $upphone,$uppostcode,$uppassword, $upcsrf) {
+            public function update($CustomerID,$username, $email, $phone,$postcode,$password) {
                 global $sqsdb;
-                    if($sqsdb->updateprofile($this->CustomerID, $upusername,  $upemail, $upphone,$uppostcode, $uppassword)) {
+                    if($sqsdb->updateprofile($this->CustomerID, $username,  $email, $phone,$postcode, $password)) {
                         return true;
                     } else {
                         return 0;

@@ -10,7 +10,7 @@
 
 <body>
        <form action="#" method="POST" id="loginform">
-              <input type="text" name="username" placeholder="user name" id="loginuser" value="root9" required>
+              <input type="text" name="username" placeholder="user name" id="loginuser" onchange="getuserid()" required>
               <input type="password" name="password" placeholder="password" id="loginpass" value="root9" required>
               <input type="submit" name="submit">
        </form>
@@ -26,9 +26,9 @@
               <input type="submit" name="submit">
        </form>
        <form action="#" method="POST" id="updateform">
+              <input type="hidden" name="currentusername"  id="currentusername" required hidden>
               <input type="text" name="username"  id="upusername" value="userna" required>
               <input type="email" name="email"  id="upemail" value="username@username2" required>
-
               <input type="number" name="phone"  id="upphone" value="1012" required>
               <input type="number" name="postcode"  id="uppostcode" value="10102" required>
               <input type="password" name="password" placeholder="password" id="uppassword" value="password2" required>

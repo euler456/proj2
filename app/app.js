@@ -6,6 +6,12 @@ document.getElementById('linkisloggedin').addEventListener('click', function(e) 
 document.getElementById('logoutbutton').addEventListener('click', function(e) {fetchlogout(e)});
 //document.getElementById('Ordering').addEventListener('submit', function(e) {fetchOrdering(e)});
 
+function getuserid() {
+    var currentusername = document.getElementById("loginuser");
+    document.getElementById("currentusername").value = currentusername.value;
+  }
+
+  
 function fetchlogin(evt) {
     evt.preventDefault()
     var fd = new FormData();
@@ -80,13 +86,14 @@ function fetchregister(evt) {
 function fetchupdate(evt) {
     evt.preventDefault();
     var fd = new FormData();
-    fd.append('upusername', upusername.value);
-    fd.append('upemail', upemail.value); //lop off # in hex code
-    fd.append('upphone', upphone.value);
-    fd.append('uppostcode', uppostcode.value);
-    fd.append('uppassword', uppassword.value);
-    fd.append('uppassword2', uppassword2.value);
-    fd.append('upcsrf', localStorage.getItem('csrf'));
+    fd.append('currentusername',currentusername.value);
+    fd.append('username', upusername.value);
+    fd.append('email', upemail.value); //lop off # in hex code
+    fd.append('phone', upphone.value);
+    fd.append('postcode', uppostcode.value);
+    fd.append('password', uppassword.value);
+    fd.append('password2', uppassword2.value);
+    fd.append('csrf', localStorage.getItem('csrf'));
     fetch('http://localhost/apitesting/api/api.php?action=update', 
     {
         method: 'POST',

@@ -105,25 +105,30 @@ if(empty($request->query->all())) {
         }
         elseif($request->query->getAlpha('action') == 'update') {
             $res = $session->get('sessionObj')->isLoggedIn();
-            if(($request->request->has('username')) && ( count($res) == 1)) {
+            if(($request->request->has('username')) && ( count($res) == 1)) {   
                 $res = $sqsdb->userExists($request->request->get('username'));
-                if($res) {
+          
+              if($res) {
                     $response->setStatusCode(400);
                 }
                 else {
-                    if($request->request->has('upusername') and
-                    $request->request->has('upemail') and
-                    $request->request->has('upphone') and
-                    $request->request->has('uppassword2') and
-                    $request->request->has('uppostcode') and
-                    $request->request->has('uppassword') ) {
+                    if(
+                         $request->request->has('currentusername') and
+                        $request->request->has('username') and
+                    $request->request->has('email') and
+                    $request->request->has('phone') and
+                    $request->request->has('postcode') and
+                    $request->request->has('password') and
+                    $request->request->has('password2') ) {
                     $res = $session->get('sessionObj')->update(
-                        $request->request->getAlpha('upusername'),
-                        $request->request->get('upemail'),
-                        $request->request->get('upphone'),
-                        $request->request->get('uppostcode'), 
-                        $request->request->get('uppassword'),    
-                       $request->request->get('upcsrf')
+                        $res = $sqsdb->userid($request->request->get('currentusername')),
+                        $request->request->get('currentusername'),
+                        $request->request->getAlpha('username'),
+                        $request->request->get('email'),
+                        $request->request->get('phone'),
+                        $request->request->get('postcode'), 
+                        $request->request->get('password'),    
+                       $request->request->get('csrf')
                     );
                     if($res === true) {
                         $response->setStatusCode(201);
@@ -135,7 +140,7 @@ if(empty($request->query->all())) {
                 }
                 }
             }
-           else {
+          else {
                 $response->setStatusCode(402);
             }
         }
