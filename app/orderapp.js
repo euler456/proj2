@@ -18,7 +18,7 @@ function fetchlogin(evt) {
     fd.append('username', loginuser.value);
     fd.append('password', loginpass.value);
     
-    fetch('http://localhost/apitesting/api/api.php?action=login', 
+    fetch('http://localhost/apitesting/api/userapi.php?action=login', 
     {
         method: 'POST',
         body: fd,
@@ -63,7 +63,7 @@ function fetchregister(evt) {
     fd.append('password', regpassword.value);
     fd.append('password2', regpassword2.value);
     fd.append('csrf', localStorage.getItem('csrf'));
-    fetch('http://localhost/apitesting/api/api.php?action=register', 
+    fetch('http://localhost/apitesting/api/userapi.php?action=register', 
     {
         method: 'POST',
         body: fd,
@@ -94,7 +94,7 @@ function fetchupdate(evt) {
     fd.append('password', uppassword.value);
     fd.append('password2', uppassword2.value);
     fd.append('csrf', localStorage.getItem('csrf'));
-    fetch('http://localhost/apitesting/api/api.php?action=update', 
+    fetch('http://localhost/apitesting/api/userapi.php?action=update', 
     {
         method: 'POST',
         body: fd,
@@ -116,7 +116,7 @@ function fetchupdate(evt) {
 }
 function fetchaccountexists(evt) {
     if(evt.srcElement.value.length > 3) {
-        fetch('http://localhost/apitesting/api/api.php?action=accountexists&username='+ evt.srcElement.value, 
+        fetch('http://localhost/apitesting/api/userapi.php?action=accountexists&username='+ evt.srcElement.value, 
         {
             method: 'GET',
             credentials: 'include'
@@ -138,7 +138,7 @@ function fetchaccountexists(evt) {
     }
 }
 function fetchisloggedin(evt) {
-    fetch('http://localhost/apitesting/api/api.php?action=isloggedin', 
+    fetch('http://localhost/apitesting/api/userapi.php?action=isloggedin', 
     {
         method: 'POST',
         credentials: 'include'
@@ -161,7 +161,7 @@ function fetchisloggedin(evt) {
     .catch(function(error) {console.log(error)});
 }
 function fetchlogout(evt) {
-    fetch('http://localhost/apitesting/api/api.php?action=logout', 
+    fetch('http://localhost/apitesting/api/userapi.php?action=logout', 
     {
         method: 'GET',
         credentials: 'include'

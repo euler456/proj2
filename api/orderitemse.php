@@ -4,14 +4,11 @@
         // attributes will be stored in session, but always test incognito
         private $last_visit = 0;
         private $last_visits = Array();
-
 //        private $user_id = 0;
 //        private $user_Username;
 //        private $user_Email;
 //        private $user_Phone;
 //        private $user_token;
-
-
         private $CustomerID = 0;
         private $username;
         private $email;
@@ -40,7 +37,7 @@
             if($res === false) {
                 return false;
             } elseif(count($res) > 1) {
-           $this->CustomerID = $res['CustomerID'];
+                $this->CustomerID = $res['CustomerID'];
                 $this->user_token = md5(json_encode($res));
                 return Array('username'=>$res['username'],
                 'email'=>$res['email'],

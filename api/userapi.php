@@ -1,10 +1,12 @@
 <?php
 
 require_once('./vendor/autoload.php');
-require_once('./db.php');
-require_once('./se.php');
+require_once('./userse.php');
+require_once('./userfunction.php');
 
-$sqsdb = new sqsModel;
+$sqsdb = new sqsuser;
+
+
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -122,7 +124,6 @@ if(empty($request->query->all())) {
                     $request->request->has('password2') ) {
                     $res = $session->get('sessionObj')->update(
                         $res = $sqsdb->userid($request->request->get('currentusername')),
-                        $request->request->get('currentusername'),
                         $request->request->getAlpha('username'),
                         $request->request->get('email'),
                         $request->request->get('phone'),
