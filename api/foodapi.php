@@ -1,8 +1,8 @@
 <?php
 
 require_once('./vendor/autoload.php');
-require_once('./orderitemse.php');
-require_once('./orderitemfunction.php');
+require_once('./fooditemse.php');
+require_once('./fooditemfunction.php');
 
 $sqsdb = new sqsitem;
 
