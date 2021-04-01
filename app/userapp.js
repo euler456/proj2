@@ -6,10 +6,10 @@ document.getElementById('linkisloggedin').addEventListener('click', function(e) 
 document.getElementById('logoutbutton').addEventListener('click', function(e) {fetchlogout(e)});
 //document.getElementById('Ordering').addEventListener('submit', function(e) {fetchOrdering(e)});
 
-function getuserid() {
+/*function getuserid() {
     var currentusername = document.getElementById("loginuser");
     document.getElementById("currentusername").value = currentusername.value;
-  }
+  }*/
 
   
 function fetchlogin(evt) {
