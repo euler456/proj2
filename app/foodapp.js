@@ -1,30 +1,39 @@
-fetch('http://localhost/apitesting/api/fooditemfunction.php').then((res)=>res.json())
+
+
+
+document.getElementById('productform').innerHTML=fetchdisplayfood();
+function fetchdisplayfood(){
+fetch('http://localhost/apitesting/api/foodapi.php?action=displayfood',
+{
+    method: 'POST',
+    credentials: 'include'
+}
+).then((res)=>res.json())
 .then(response=>{console.log(response);
     let output = '';
     for(let i in response){
         output+=`<tr>
         <td>${response[i].name}</td>
         <td>${response[i].description}</td>
-        <td ><img src='../${response[i].images_path }' style="width: 100px; height: 100px;"></td>
+        <td ><img src='../${response[i].imagespath }' style="width: 100px; height: 100px;"></td>
         <td>${response[i].options}</td>
         <td>${response[i].price}</td>
         </tr>`;
     }
     document.querySelector('.tbody').innerHTML = output;
 }).catch(error=>console.error(error));
-
+}
 
 document.getElementById('Addfood').addEventListener('submit', function(e) {fetchAddfood(e)});
 function fetchAddfood(evt) {
     evt.preventDefault();
     var fd = new FormData();
     fd.append('foodname', foodname.value);
-    fd.append('description', description.value); //lop off # in hex code
-    fd.append('images_path', images_path.value);
-    fd.append('options', options.value);
     fd.append('Price', Price.value);
-    fd.append('csrf', localStorage.getItem('csrf'));
-    fetch('http://localhost/apitesting/api/userapi.php?action=register', 
+    fd.append('description', description.value); //lop off # in hex code
+    fd.append('imagespath', imagespath.value);
+    fd.append('options', options.value);
+    fetch('http://localhost/apitesting/api/foodapi.php?action=addfood', 
     {
         method: 'POST',
         body: fd,
@@ -37,7 +46,7 @@ function fetchAddfood(evt) {
         }
      
         if(headers.status == 201) {
-            console.log('registration updated');
+            console.log('addfood succussful');
             return;
         }
        

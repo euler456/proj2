@@ -1,6 +1,6 @@
 <?php
 
-    class sqsSession {
+    class sqsfoodSession {
         // attributes will be stored in session, but always test incognito
         private $last_visit = 0;
         private $last_visits = Array();
@@ -30,41 +30,19 @@
             }
             return false;
         }
-        public function login($username, $password) {
-            global $sqsdb;
-
-            $res = $sqsdb->checkLogin($username, $password);
-            if($res === false) {
-                return false;
-            } elseif(count($res) > 1) {
-                $this->CustomerID = $res['CustomerID'];
-                $this->user_token = md5(json_encode($res));
-                return Array('username'=>$res['username'],
-                'email'=>$res['email'],
-                'phone'=>$res['phone'],
-                'Hash'=>$this->user_token);
-            } elseif(count($res) == 1) {
-                $this->CustomerID = $res['CustomerID'];
-                $this->user_token = md5(json_encode($res));
-                return Array('Hash'=>$this->user_token);
-            }
-        }
-        public function register($username, $email, $phone,$postcode,$password, $csrf) {
-            global $sqsdb;
-                if($sqsdb->registerUser($this->CustomerID, $username,  $email, $phone,$postcode, $password)) {
-                    return true;
-                } else {
-                    return 0;
-                }
-            }
-            public function update($CustomerID,$username, $email, $phone,$postcode,$password) {
+            public function display() {
                 global $sqsdb;
-                    if($sqsdb->updateprofile($this->CustomerID, $username,  $email, $phone,$postcode, $password)) {
+                $sqsdb->displayfood();
+                return $sqsdb;
+            }    
+            public function addfood($foodname,$Price, $description, $imagespath,$options) {
+                global $sqsdb;
+                    if($sqsdb->addfooditem($foodname,$Price, $description, $imagespath,$options)) {
                         return true;
                     } else {
                         return 0;
                     }
-                }    
+                }
 
             
             // call the dbobject for SQL
