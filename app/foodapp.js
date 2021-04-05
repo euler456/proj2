@@ -1,6 +1,3 @@
-
-
-
 document.getElementById('productform').innerHTML=fetchdisplayfood();
 function fetchdisplayfood(){
 fetch('http://localhost/apitesting/api/foodapi.php?action=displayfood',
@@ -15,9 +12,10 @@ fetch('http://localhost/apitesting/api/foodapi.php?action=displayfood',
         output+=`<tr>
         <td>${response[i].foodname}</td>
         <td>${response[i].description}</td>
-        <td ><img src='../${response[i].image }' style="width: 100px; height: 100px;"></td>
+        <td ><img src='../images/${response[i].image }' style="width: 100px; height: 100px;"></td>
         <td>${response[i].options}</td>
         <td>${response[i].price}</td>
+        <td><button id="delete">delete</button></td>
         </tr>`;
     }
     document.querySelector('.tbody').innerHTML = output;
