@@ -9,7 +9,6 @@
 //        private $user_Email;
 //        private $user_Phone;
 //        private $user_token;
-        private $CustomerID = 0;
         private $username;
         private $email;
         private $phone;
@@ -30,34 +29,25 @@
             }
             return false;
         }
+     
             public function display() {
                 global $sqsdb;
                 $sqsdb->displayfood();
                 return $sqsdb;
             }    
-            public function addfood($foodname,$Price, $description, $imagespath,$options) {
+            public function addfood($foodname,$price, $description,$options,$image) {
                 global $sqsdb;
-                    if($sqsdb->addfooditem($foodname,$Price, $description, $imagespath,$options)) {
+                    if($sqsdb->addfooditem($foodname,$price,$description,$options,$image)) {
                         return true;
                     } else {
-                        return 0;
+                        return false;
                     }
                 }
 
             
             // call the dbobject for SQL
         
-        public function isLoggedIn() {
-            if($this->CustomerID === 0) {
-                return false;
-            } else {
-                return Array('Hash'=>$this->user_token);
-            }
-        }
-        public function logout() {
-            $this->CustomerID = 0;
-//            $this->user_privilege = 0;
-        }
+       
         public function validate($type, $dirty_string) {
         }
         public function logEvent() {

@@ -123,7 +123,7 @@ if(empty($request->query->all())) {
                     $request->request->has('password') and
                     $request->request->has('password2') ) {
                     $res = $session->get('sessionObj')->update(
-                        $res = $sqsdb->userid($request->request->get('currentusername')),
+                    //    $res = $sqsdb->userid($request->request->get('currentusername')),
                         $request->request->getAlpha('username'),
                         $request->request->get('email'),
                         $request->request->get('phone'),

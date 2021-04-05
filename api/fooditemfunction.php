@@ -29,22 +29,16 @@
 exit(json_encode($result));
       
     }
-    function addfooditem($foodname, $Price, $description, $imagespath, $options) {
-        // Retister user into system, assume validation has happened.
-        // return UID created or false if fail
-//            $sql = "UPDATE customer SET Username = :Username, Pass = :Pass, Email = :Email, Phone = :Phone=1 WHERE CustomerID = :CustomerID";
-
-//            $lastCustID = $this->dbconn->lastInsertID();
-
-//            $sql = "INSERT INTO customer(CustomerID,Username,Pass,Email,Phone)  VALUES (:CustomerID,:Username,:Pass,:Email, :Phone)";
-        $sql = "INSERT INTO food (name,Price,description, imagespath,options)  VALUES (:foodname,:Price,:description, :imagespath,:options);";
+    function addfooditem($foodname, $price, $description,$options,$image) {
+      
+        $sql = "INSERT INTO food (foodname,price,description,options,image)  VALUES (:foodname,:price,:description,:options,:image);";
         $stmt = $this->dbconn->prepare($sql);
-//            $stmt->bindParam(':CustomerID', $lastCustID, PDO::PARAM_INT);
+      //  $stmt->bindParam(':F_ID', $F_ID, PDO::PARAM_INT);   
         $stmt->bindParam(':foodname', $foodname, PDO::PARAM_STR);
-        $stmt->bindParam(':Price', $Price, PDO::PARAM_INT);    
-        $stmt->bindParam(':description', $description, PDO::PARAM_STR);
-        $stmt->bindParam(':imagespath', $imagespath, PDO::PARAM_STR);      
+        $stmt->bindParam(':price', $price, PDO::PARAM_INT);    
+        $stmt->bindParam(':description', $description, PDO::PARAM_STR);   
         $stmt->bindParam(':options', $options, PDO::PARAM_STR);  
+        $stmt->bindParam(':image', $image, PDO::PARAM_STR);  
         $result = $stmt->execute();
         if($result === true) {
             return true;

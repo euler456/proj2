@@ -45,18 +45,17 @@ if(empty($request->query->all())) {
             }
         elseif($request->query->getAlpha('action') == 'addfood') {    
                 if($request->request->has('foodname') and
-                    $request->request->has('Price')   and
+                    $request->request->has('price')   and
                     $request->request->has('description') and
-                    $request->request->has('imagespath') and
+                    $request->request->has('image') and
                     $request->request->has('options')   ) {
-                    $res = $session->get('sessionObj')->addfood(
+                        $response->setStatusCode(201);
+                   $res = $session->get('sessionObj')->addfood(
                         $request->request->get('foodname'),
-                        $request->request->get('Price'),    
+                        $request->request->get('price'),    
                         $request->request->get('description'),
-                        $request->request->get('phone'),
-                        $request->request->get('imagespath'), 
-                        $request->request->get('options'),    
-        
+                        $request->request->get('options'),
+                        $request->request->get('image')
                     );
                     if($res === true) {
                         $response->setStatusCode(201);
