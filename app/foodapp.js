@@ -22,7 +22,6 @@ fetch('http://localhost/apitesting/api/foodapi.php?action=displayfood',
     document.querySelector('.tbody').innerHTML = output;
 }).catch(error=>console.error(error));
 }
-
 document.getElementById('Addfood').addEventListener('submit', function(e) {fetchAddfood(e)});
 function fetchAddfood(evt) {
     evt.preventDefault();
@@ -52,11 +51,7 @@ function fetchAddfood(evt) {
     })
     .catch(function(error) {console.log(error)});
 }
-
-//var deleteid = document.getElementsByClassName('deleteclass').id;
-//deleteid.addEventListener('submit', fetchdelete());
 function fetchdelete(FID) {
-  // var F_ID=document.getElementsByClassName('foodid').id;
     var fd = new FormData();
     fd.append('F_ID', FID);
     fetch('http://localhost/apitesting/api/foodapi.php?action=delete', 
@@ -73,6 +68,36 @@ function fetchdelete(FID) {
      
         if(headers.status == 201) {
             console.log('delete succussful');
+            return;
+        }
+       
+    })
+    .catch(function(error) {console.log(error)});
+}
+document.getElementById('updatefood').addEventListener('submit', function(e) {fetchupdatefood(e)});
+function fetchupdatefood(evt) {
+    evt.preventDefault();
+    var fd = new FormData();
+    fd.append('F_ID', F_ID.value);
+    fd.append('foodname', foodname2.value);
+    fd.append('price', price2.value);
+    fd.append('description', description2.value); 
+    fd.append('options', options2.value);
+    fd.append('image', image2.value);
+    fetch('http://localhost/apitesting/api/foodapi.php?action=updatefood', 
+    {
+        method: 'POST',
+        body: fd,
+        credentials: 'include'
+    })
+    .then(function(headers) {
+        if(headers.status == 400) {
+            console.log('can not update');
+            return;
+        }
+     
+        if(headers.status == 201) {
+            console.log('update succussful');
             return;
         }
        

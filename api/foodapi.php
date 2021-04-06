@@ -88,8 +88,7 @@ if(empty($request->query->all())) {
         $request->request->has('description') and
         $request->request->has('image') and
         $request->request->has('options')   ) {
-            $response->setStatusCode(201);
-       $res = $session->get('sessionObj')->addfood(
+       $res = $session->get('sessionObj')->updatefood(
         $request->request->get('F_ID'),
             $request->request->get('foodname'),
             $request->request->get('price'),    

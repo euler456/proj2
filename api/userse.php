@@ -57,7 +57,7 @@
                     return 0;
                 }
             }
-            public function update($CustomerID,$username, $email, $phone,$postcode,$password) {
+            public function update($username, $email, $phone,$postcode,$password) {
                 global $sqsdb;
                     if($sqsdb->updateprofile($this->CustomerID, $username,  $email, $phone,$postcode, $password)) {
                         return true;
