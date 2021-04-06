@@ -10,13 +10,13 @@ fetch('http://localhost/apitesting/api/foodapi.php?action=displayfood',
     let output = '';
     for(let i in response){
         output+=`<tr>
-        <td id="${response[i].F_ID}" class="foodid">${response[i].F_ID}</td>
+        <td class="foodid">${response[i].F_ID}</td>
         <td>${response[i].foodname}</td>
         <td>${response[i].description}</td>
         <td ><img src='../images/${response[i].image }' style="width: 100px; height: 100px;"></td>
         <td>${response[i].options}</td>
         <td>${response[i].price}</td>
-        <td>   <input type="submit" name="delete" id="delete"></td>
+        <td><input type="submit" name="delete" value="delete" class="deleteclass" onclick="fetchdelete(${response[i].F_ID})"></td>
         </tr>`;
     }
     document.querySelector('.tbody').innerHTML = output;
@@ -53,12 +53,12 @@ function fetchAddfood(evt) {
     .catch(function(error) {console.log(error)});
 }
 
-document.getElementById('delete').addEventListener('submit', function(e){fetchdelete(e)});
-function fetchdelete(evt) {
-    var F_ID=document.getElementsByClassName('foodid').id;
-    evt.preventDefault();
+//var deleteid = document.getElementsByClassName('deleteclass').id;
+//deleteid.addEventListener('submit', fetchdelete());
+function fetchdelete(FID) {
+  // var F_ID=document.getElementsByClassName('foodid').id;
     var fd = new FormData();
-    fd.append('F_ID', F_ID.value);
+    fd.append('F_ID', FID);
     fetch('http://localhost/apitesting/api/foodapi.php?action=delete', 
     {
         method: 'POST',

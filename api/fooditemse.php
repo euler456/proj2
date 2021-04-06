@@ -51,6 +51,14 @@
                             return false;
                         }
                     }
+            public function updatefood($F_ID,$foodname,$price, $description,$options,$image) {
+                    global $sqsdb;
+                            if($sqsdb->updatefooditem($F_ID,$foodname,$price,$description,$options,$image)) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
         public function validate($type, $dirty_string) {
         }
         public function logEvent() {

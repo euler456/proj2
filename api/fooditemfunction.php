@@ -46,10 +46,27 @@ exit(json_encode($result));
             return false;
         }
     }
-    function delete($F_ID){
-        $sql = "DELETE FROM food where F_ID = '$F_ID';";
+    function deletefood($F_ID){
+        $sql = "DELETE FROM food where F_ID = :F_ID;";
         $stmt = $this->dbconn->prepare($sql);
         $stmt->bindParam(':F_ID', $F_ID, PDO::PARAM_INT);
+        $result = $stmt->execute();
+        if($result === true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function updatefooditem($F_ID,$foodname, $price, $description,$options,$image) {
+      
+        $sql = "UPDATE food SET foodname = :foodname,price = :price , description = :description, options = :options, image = :image WHERE F_ID = :F_ID";
+        $stmt = $this->dbconn->prepare($sql);
+        $stmt->bindParam(':F_ID', $F_ID, PDO::PARAM_INT);   
+        $stmt->bindParam(':foodname', $foodname, PDO::PARAM_STR);
+        $stmt->bindParam(':price', $price, PDO::PARAM_INT);    
+        $stmt->bindParam(':description', $description, PDO::PARAM_STR);   
+        $stmt->bindParam(':options', $options, PDO::PARAM_STR);  
+        $stmt->bindParam(':image', $image, PDO::PARAM_STR);  
         $result = $stmt->execute();
         if($result === true) {
             return true;
