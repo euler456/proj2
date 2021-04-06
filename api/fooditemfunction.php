@@ -46,6 +46,17 @@ exit(json_encode($result));
             return false;
         }
     }
+    function delete($F_ID){
+        $sql = "DELETE FROM food where F_ID = '$F_ID';";
+        $stmt = $this->dbconn->prepare($sql);
+        $stmt->bindParam(':F_ID', $F_ID, PDO::PARAM_INT);
+        $result = $stmt->execute();
+        if($result === true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
 }

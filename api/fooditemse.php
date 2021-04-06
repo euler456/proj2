@@ -43,11 +43,14 @@
                         return false;
                     }
                 }
-
-            
-            // call the dbobject for SQL
-        
-       
+            public function delete($F_ID) {
+                    global $sqsdb;
+                        if($sqsdb->deletefood($F_ID)) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
         public function validate($type, $dirty_string) {
         }
         public function logEvent() {

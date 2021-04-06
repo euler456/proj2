@@ -68,7 +68,18 @@ if(empty($request->query->all())) {
            else {
                 $response->setStatusCode(400);
             }
-        }
+        }elseif($request->query->getAlpha('action') == 'delete') {    
+               $res = $session->get('sessionObj')->delete(
+                    $request->request->get('F_ID'));
+                if($res === true) {
+                    $response->setStatusCode(201);
+                } elseif($res === false) {
+                    $response->setStatusCode(403);
+                } elseif($res === 0) {
+                    $response->setStatusCode(500);
+                }
+     
+    }
      
     
 

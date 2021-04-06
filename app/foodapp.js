@@ -10,12 +10,13 @@ fetch('http://localhost/apitesting/api/foodapi.php?action=displayfood',
     let output = '';
     for(let i in response){
         output+=`<tr>
+        <td id="${response[i].F_ID}" class="foodid">${response[i].F_ID}</td>
         <td>${response[i].foodname}</td>
         <td>${response[i].description}</td>
         <td ><img src='../images/${response[i].image }' style="width: 100px; height: 100px;"></td>
         <td>${response[i].options}</td>
         <td>${response[i].price}</td>
-        <td><button id="delete">delete</button></td>
+        <td>   <input type="submit" name="delete" id="delete"></td>
         </tr>`;
     }
     document.querySelector('.tbody').innerHTML = output;
@@ -45,6 +46,33 @@ function fetchAddfood(evt) {
      
         if(headers.status == 201) {
             console.log('addfood succussful');
+            return;
+        }
+       
+    })
+    .catch(function(error) {console.log(error)});
+}
+
+document.getElementById('delete').addEventListener('submit', function(e){fetchdelete(e)});
+function fetchdelete(evt) {
+    var F_ID=document.getElementsByClassName('foodid').id;
+    evt.preventDefault();
+    var fd = new FormData();
+    fd.append('F_ID', F_ID.value);
+    fetch('http://localhost/apitesting/api/foodapi.php?action=delete', 
+    {
+        method: 'POST',
+        body: fd,
+        credentials: 'include'
+    })
+    .then(function(headers) {
+        if(headers.status == 400) {
+            console.log('can not delete');
+            return;
+        }
+     
+        if(headers.status == 201) {
+            console.log('delete succussful');
             return;
         }
        
