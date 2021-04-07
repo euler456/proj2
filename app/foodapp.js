@@ -10,12 +10,13 @@ fetch('http://localhost/apitesting/api/foodapi.php?action=displayfood',
     let output = '';
     for(let i in response){
         output+=`<tr>
-        <td class="foodid">${response[i].F_ID}</td>
+        <td class="foodid" type="hidden">${response[i].F_ID}</td>
         <td>${response[i].foodname}</td>
         <td>${response[i].description}</td>
         <td ><img src='../images/${response[i].image }' style="width: 100px; height: 100px;"></td>
         <td>${response[i].options}</td>
         <td>${response[i].price}</td>
+        <td><input name="number" value="2"  onclick="fetchquantity()"></td>
         <td><input type="submit" name="delete" value="delete" class="deleteclass" onclick="fetchdelete(${response[i].F_ID})"></td>
         </tr>`;
     }
@@ -51,6 +52,10 @@ function fetchAddfood(evt) {
     })
     .catch(function(error) {console.log(error)});
 }
+function fetchquantity(quantity){   
+    window.quantity=quantity;
+}
+console.log(quantity);
 function fetchdelete(FID) {
     var fd = new FormData();
     fd.append('F_ID', FID);

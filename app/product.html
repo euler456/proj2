@@ -12,11 +12,10 @@
        <form action="#" method="POST" >
         <table>
             <thead>
-                <th>F_id</th>
                 <th>Name</th>
                 <th>description</th>
                 <th>images_path</th>
-                <th>options</th>z
+                <th>options</th>
                 <th>Price</th>
             </thead>
             <tbody class="tbody" id="productform">
@@ -24,26 +23,22 @@
             </tbody>
         </table>
        </form>
-       <form action="#" method="POST" >
-        <table>
-            <thead>
-                <th>F_id</th>
-                <th>Name</th>
-                <th>description</th>
-                <th>images_path</th>
-                <th>options</th>z
-                <th>Price</th>
-            </thead>
-            <tbody class="tbody" id="productform">
-
-            </tbody>
-        </table>
-       </form>
-       
-      
-     
+       <form action="#" method="POST" id="Addfood">
+        <label for="Name">name</label>
+        <input type="text" name="foodname"  id="foodname" value="ddddd" required>
+        <label for="price">price</label>
+        <input type="number" name="price"  id="price" value="10" required>
+        <label for="description">description</label>
+        <input type="text" name="description"  id="description" value="description" required>
+        <label for="options">options</label>
+        <input type="text" name="options"  id="options" value="ENABLE" required>
+        <label for="image">image</label>
+        <input type="text" name="image"  id="image" value="image" required>
+        <input type="submit" name="submit">
+        </form>
         
         <button><a href="../app/index.html">return</a></button>
+        <button><a href="../app/orderform.html">orderform</a></button>
 </body>
 
 
