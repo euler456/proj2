@@ -1,21 +1,14 @@
 <?php
 
     class sqsSession {
-        // attributes will be stored in session, but always test incognito
+        //========================userfunction============================
         private $last_visit = 0;
         private $last_visits = Array();
-//        private $user_id = 0;
-//        private $user_Username;
-//        private $user_Email;
-//        private $user_Phone;
-//        private $user_token;
         private $CustomerID = 0;
         private $username;
         private $email;
         private $phone;
         private $user_token;
-
-//        private $origin;
 
         public function __construct() {
             $this->origin = 'http://localhost/';
@@ -64,11 +57,7 @@
                     } else {
                         return 0;
                     }
-                }    
-
-            
-            // call the dbobject for SQL
-        
+                }  
         public function isLoggedIn() {
             if($this->CustomerID === 0) {
                 return false;
@@ -78,11 +67,42 @@
         }
         public function logout() {
             $this->CustomerID = 0;
-//            $this->user_privilege = 0;
         }
         public function validate($type, $dirty_string) {
         }
         public function logEvent() {
         }
+
+    //===========================foodfunction================================================
+    public function display() {
+        global $sqsdb;
+        $sqsdb->displayfood();
+        return $sqsdb;
+    }    
+    public function addfood($foodname,$price, $description,$options,$image) {
+        global $sqsdb;
+            if($sqsdb->addfooditem($foodname,$price,$description,$options,$image)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    public function deleteFOOD($F_ID) {
+            global $sqsdb;
+                if($sqsdb->deletefood($F_ID)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+    public function updatefood($F_ID,$foodname,$price, $description,$options,$image) {
+            global $sqsdb;
+                    if($sqsdb->updatefooditem($F_ID,$foodname,$price,$description,$options,$image)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+    //====================orderfunction===============================
     }
 ?>

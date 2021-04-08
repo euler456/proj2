@@ -1,7 +1,7 @@
 <?php
 
 require_once('./vendor/autoload.php');
-require_once('./fooditemse.php');
+require_once('./se.php');
 require_once('./fooditemfunction.php');
 
 $sqsdb = new sqsfood;
@@ -28,7 +28,7 @@ $response->headers->set('Access-Control-Allow-Credentials', 'true');
 $session->start();
 
 if(!$session->has('sessionObj')) {
-    $session->set('sessionObj', new sqsfoodSession);
+    $session->set('sessionObj', new sqsSession);
 }
 
 if(empty($request->query->all())) {
@@ -68,8 +68,8 @@ if(empty($request->query->all())) {
            else {
                 $response->setStatusCode(400);
             }
-        }elseif($request->query->getAlpha('action') == 'delete') {    
-               $res = $session->get('sessionObj')->delete(
+        }elseif($request->query->getAlpha('action') == 'deleteFOOD') {    
+               $res = $session->get('sessionObj')->deleteFOOD(
                     $request->request->get('F_ID'));
                 if($res === true) {
                     $response->setStatusCode(201);
@@ -82,7 +82,7 @@ if(empty($request->query->all())) {
     }
     elseif($request->query->getAlpha('action') == 'updatefood') {    
         if(
-            $request->request->get('F_ID') and
+            $request->request->has('F_ID') and
             $request->request->has('foodname') and
         $request->request->has('price')   and
         $request->request->has('description') and

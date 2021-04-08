@@ -10,14 +10,14 @@ fetch('http://localhost/apitesting/api/foodapi.php?action=displayfood',
     let output = '';
     for(let i in response){
         output+=`<tr>
-        <td class="foodid" type="hidden">${response[i].F_ID}</td>
+        <td>${response[i].F_ID}</td>
         <td>${response[i].foodname}</td>
         <td>${response[i].description}</td>
         <td ><img src='../images/${response[i].image }' style="width: 100px; height: 100px;"></td>
         <td>${response[i].options}</td>
         <td>${response[i].price}</td>
-        <td><input name="number" value="2"  onclick="fetchquantity()"></td>
-        <td><input type="submit" name="delete" value="delete" class="deleteclass" onclick="fetchdelete(${response[i].F_ID})"></td>
+        <td><input name="number" value="1" id="foodquantity"onclick="fetchquantity(${response[i].F_ID},)" style="width: 30px;"></td>
+        <td><input type="submit" name="delete" value="delete"  onclick="fetchdelete(${response[i].F_ID})"></td>
         </tr>`;
     }
     document.querySelector('.tbody').innerHTML = output;
@@ -48,18 +48,14 @@ function fetchAddfood(evt) {
             console.log('addfood succussful');
             return;
         }
-       
     })
     .catch(function(error) {console.log(error)});
 }
-function fetchquantity(quantity){   
-    window.quantity=quantity;
-}
-console.log(quantity);
-function fetchdelete(FID) {
+
+function fetchdelete(foodID) {
     var fd = new FormData();
-    fd.append('F_ID', FID);
-    fetch('http://localhost/apitesting/api/foodapi.php?action=delete', 
+    fd.append('F_ID', foodID);
+    fetch('http://localhost/apitesting/api/foodapi.php?action=deleteFOOD', 
     {
         method: 'POST',
         body: fd,
@@ -83,7 +79,7 @@ document.getElementById('updatefood').addEventListener('submit', function(e) {fe
 function fetchupdatefood(evt) {
     evt.preventDefault();
     var fd = new FormData();
-    fd.append('F_ID', F_ID.value);
+    fd.append('F_ID', F_ID2.value);
     fd.append('foodname', foodname2.value);
     fd.append('price', price2.value);
     fd.append('description', description2.value); 
@@ -109,3 +105,8 @@ function fetchupdatefood(evt) {
     })
     .catch(function(error) {console.log(error)});
 }
+
+function fetchquantity(quantity){   
+    window.quantity=quantity;
+}
+console.log(window.quantity);
