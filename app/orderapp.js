@@ -14,10 +14,15 @@ fetch('http://localhost/apitesting/api/orderapi.php?action=displayorderfood',
         <td>${response[i].foodname}</td>
         <td ><img src='../images/${response[i].image }' style="width: 100px; height: 100px;"></td>
         <td>${response[i].price}</td>
-        <td><input type="submit" name="quantity" value="1"  onclick="fetchorder(${response[i].F_ID},this)"></td>
+        <td><input type="number" name="quantity" value="1"  onclick="fetchorder(${response[i].F_ID},this)"></td>
         <td>${response[i].options}</td>
         </tr>`;
     }
     document.querySelector('.tbody').innerHTML = output;
 }).catch(error=>console.error(error));
+}
+function fetchorder(F_ID,foodvalue){
+ 
+
+    
 }
