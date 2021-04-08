@@ -16,7 +16,6 @@ fetch('http://localhost/apitesting/api/foodapi.php?action=displayfood',
         <td ><img src='../images/${response[i].image }' style="width: 100px; height: 100px;"></td>
         <td>${response[i].options}</td>
         <td>${response[i].price}</td>
-        <td><input name="number" value="1" id="foodquantity"onclick="fetchquantity(${response[i].F_ID},)" style="width: 30px;"></td>
         <td><input type="submit" name="delete" value="delete"  onclick="fetchdelete(${response[i].F_ID})"></td>
         </tr>`;
     }

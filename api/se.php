@@ -104,5 +104,19 @@
                     }
                 }
     //====================orderfunction===============================
-    }
+    public function displayorder() {
+        global $sqsdb;
+        $sqsdb->displayorderfood();
+        return $sqsdb;
+    }    
+    public function orderquantity($foodname,$price, $description,$options,$image) {
+        global $sqsdb;
+            if($sqsdb->orderquantityfood($foodname,$price,$description,$options,$image)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+}
 ?>
