@@ -29,16 +29,40 @@
 exit(json_encode($result));
       
     }
-    function orderquantityfood($foodname, $price, $description,$options,$image) {
+        
+    public function displayshoworderform(){
+                $sql = "SELECT * FROM orderitem";
+                $stmt = $this->dbconn->prepare($sql);
+                $stmt->execute();
+                $result = $stmt->fetchAll();
+        exit(json_encode($result));
+              
+            }
+            function deleteorderfood($orderitem_ID){
+                $sql = "DELETE FROM orderitem where orderitem_ID = :orderitem_ID;";
+                $stmt = $this->dbconn->prepare($sql);
+                $stmt->bindParam(':orderitem_ID', $orderitem_ID, PDO::PARAM_INT);
+                $result = $stmt->execute();
+                if($result === true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+
+
+
+    function orderquantityfood($F_ID,$foodname,$price,$quantity,$totalprice) {
       
-        $sql = "INSERT INTO food (foodname,price,description,options,image)  VALUES (:foodname,:price,:description,:options,:image);";
+        $sql = "INSERT INTO orderitem (F_ID,foodname,price,quantity,totalprice)  VALUES (:F_ID,:foodname,:price,:quantity,:totalprice);";
         $stmt = $this->dbconn->prepare($sql);
-      //  $stmt->bindParam(':F_ID', $F_ID, PDO::PARAM_INT);   
+      //  $stmt->bindParam(':F_ID', $F_ID, PDO::PARAM_INT);  
+      $stmt->bindParam(':F_ID', $F_ID, PDO::PARAM_INT);   
         $stmt->bindParam(':foodname', $foodname, PDO::PARAM_STR);
-        $stmt->bindParam(':price', $price, PDO::PARAM_INT);    
-        $stmt->bindParam(':description', $description, PDO::PARAM_STR);   
-        $stmt->bindParam(':options', $options, PDO::PARAM_STR);  
-        $stmt->bindParam(':image', $image, PDO::PARAM_STR);  
+        $stmt->bindParam(':price', $price, PDO::PARAM_INT);   
+        $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);   
+        $stmt->bindParam(':totalprice', $totalprice, PDO::PARAM_INT);    
         $result = $stmt->execute();
         if($result === true) {
             return true;

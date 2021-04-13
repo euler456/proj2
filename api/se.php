@@ -109,14 +109,27 @@
         $sqsdb->displayorderfood();
         return $sqsdb;
     }    
-    public function orderquantity($foodname,$price, $description,$options,$image) {
+    public function orderquantity($F_ID,$foodname,$price,$quantity,$totalprice) {
         global $sqsdb;
-            if($sqsdb->orderquantityfood($foodname,$price,$description,$options,$image)) {
+            if($sqsdb->orderquantityfood($F_ID,$foodname,$price,$quantity,$totalprice)) {
                 return true;
             } else {
                 return false;
             }
         }
+    public function showorderform() {
+            global $sqsdb;
+            $sqsdb->displayshoworderform();
+            return $sqsdb;
+        }
+    public function orderdelete($orderitem_ID) {
+            global $sqsdb;
+                if($sqsdb->deleteorderfood($orderitem_ID)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }   
 
 }
 ?>

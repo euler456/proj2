@@ -43,19 +43,28 @@ if(empty($request->query->all())) {
                    return $res;  
                    $response->setStatusCode(400);
             }
+        elseif($request->query->getAlpha('action') == 'showorderform') {    
+                $res = $session->get('sessionObj')->showorderform();
+                return $res;  
+                $response->setStatusCode(400);
+            }
+        elseif($request->query->getAlpha('action') == 'orderdelete') {    
+                $res = $session->get('sessionObj')->orderdelete(
+                     $request->request->get('orderitem_ID'));
+     }
         elseif($request->query->getAlpha('action') == 'orderquantity') {    
                 if($request->request->has('F_ID') and
-                    $request->request->has('price')   and
-                    $request->request->has('description') and
-                    $request->request->has('image') and
-                    $request->request->has('options')   ) {
-                        $response->setStatusCode(201);
+                    $request->request->has('foodname') and
+                    $request->request->has('price') and
+                    $request->request->has('quantity') and
+                    $request->request->has('totalprice') 
+                      ) {
                    $res = $session->get('sessionObj')->orderquantity(
+                        $request->request->get('F_ID'),
                         $request->request->get('foodname'),
                         $request->request->get('price'),    
-                        $request->request->get('description'),
-                        $request->request->get('options'),
-                        $request->request->get('image')
+                        $request->request->get('quantity'),
+                        $request->request->get('totalprice')   
                     );
                     if($res === true) {
                         $response->setStatusCode(201);
@@ -69,6 +78,7 @@ if(empty($request->query->all())) {
                 $response->setStatusCode(400);
             }
         }
+      
     if($request->getMethod() == 'DELETE') {           // delete queue, delete comment
         $response->setStatusCode(400);
     }

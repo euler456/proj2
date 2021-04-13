@@ -16,15 +16,32 @@
             <thead>
                 <th>F_id</th>
                 <th>Name</th>
+                <th>image</th>
                 <th>Price</th>
                 <th>Quantity</th>
             </thead>
-            <tbody class="tbody" id="orderform">
+            <tbody class="ordertbody" id="orderform">
 
             </tbody>
         </table>
-       <button><a href="../app/payment.html">Confirm order</a></button>
        </form>
+
+       <form action="#" method="POST" >
+           <h1>Your order</h1>
+        <table>
+            <thead>
+                <th>Name</th>
+                <th>image</th>
+                <th>Price</th>
+                <th>totalprice</th>
+            </thead>
+            <tbody class="showtbody" id="showorderform">
+
+            </tbody>
+        </table>
+        <button onclick="fetchorder()">Click me</button>
+       </form>
+
 
        <button><a href="../app/product.html">products</a></button>
 </body>
