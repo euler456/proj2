@@ -78,6 +78,7 @@ $(document).ready(function(){
       var col3 = currentRow.find(".fd-name").html(); 
       var col4 = currentRow.find(".price").html(); 
       var col5 =col4 * col1;
+      if(col1 !=0){
       var fd = new FormData();
       fd.append('F_ID',col2 );
       fd.append('foodname', col3 );
@@ -101,6 +102,10 @@ $(document).ready(function(){
               return;
           }
       })
-      .catch(function(error) {console.log(error)});
+      .catch(function(error) {console.log(error)});}
+      else{
+          alert("please select value");
+      }
+
     });
   });
