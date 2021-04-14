@@ -24,6 +24,7 @@ fetch('http://localhost/apitesting/api/orderapi.php?action=displayorderfood',
 }
 
 
+
 document.getElementById('showorderform').innerHTML=fetchshoworderform();
 function fetchshoworderform(){
 fetch('http://localhost/apitesting/api/orderapi.php?action=showorderform',
@@ -109,3 +110,24 @@ $(document).ready(function(){
 
     });
   });
+
+
+  
+document.getElementById('orderID').innerHTML=fetchorderID();
+function fetchorderID(){
+fetch('http://localhost/apitesting/api/orderapi.php?action=orderID',
+{
+    method: 'GET',
+    credentials: 'include'
+}
+).then((res)=>res.json())
+.then(response=>{console.log(response);
+    let output = '';
+    for(let i in response){
+        output+=`<tr>
+        <td class='orderid'>${response}</td>
+        </tr>`;
+    }
+    document.querySelector('.orderID').innerHTML = output;
+}).catch(error=>console.error(error));
+}

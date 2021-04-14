@@ -104,8 +104,34 @@ function fetchupdatefood(evt) {
     })
     .catch(function(error) {console.log(error)});
 }
-
-function fetchquantity(quantity){   
-    window.quantity=quantity;
+document.getElementById('createorder').addEventListener('click', function(e) {fetchcreateorder(e)});
+function fetchcreateorder(evt) {
+    
+    var orderstatus= "Notpayed";
+    var totalprice= 0 ;
+    evt.preventDefault();
+    var fd = new FormData();
+    fd.append('orderstatus', orderstatus );
+    fd.append('totalprice', totalprice );
+    fetch('http://localhost/apitesting/api/foodapi.php?action=createorder', 
+    {
+        method: 'POST',
+        body: fd,
+        credentials: 'include'
+    })
+    .then(function(headers) {
+        if(headers.status == 400) {
+            console.log('can not order you are not loggedin');
+            return;
+        }
+     
+        if(headers.status == 201) {
+            console.log('going to order');
+            location.replace("../app/orderform.html")
+            return;
+        }
+       
+    })
+    .catch(function(error) {console.log(error)});
 }
-console.log(window.quantity);
+

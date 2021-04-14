@@ -46,7 +46,6 @@ if(empty($request->query->all())) {
         elseif($request->query->getAlpha('action') == 'showorderform') {    
                 $res = $session->get('sessionObj')->showorderform();
                 return $res;  
-                $response->setStatusCode(400);
             }
         elseif($request->query->getAlpha('action') == 'orderdelete') {    
                 $res = $session->get('sessionObj')->orderdelete(
@@ -78,14 +77,23 @@ if(empty($request->query->all())) {
                 $response->setStatusCode(400);
             }
         }
-      
+    }
     if($request->getMethod() == 'DELETE') {           // delete queue, delete comment
         $response->setStatusCode(400);
     }
     if($request->getMethod() == 'PUT') {              // enqueue, add comment
         $response->setStatusCode(400);
     }
-}
+    if($request->getMethod() == 'GET') {      
+        if($request->query->getAlpha('action') == 'orderID') {
+                $res = $session->get('sessionObj')->orderID();
+    
+        }
+        else {
+            $response->setStatusCode(418);
+        }
+    }
+
 }
  else {
     $redirect = new RedirectResponse($_SERVER['REQUEST_URI']);

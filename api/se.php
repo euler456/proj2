@@ -73,7 +73,7 @@
         public function logEvent() {
         }
 
-    //===========================foodfunction================================================
+    //===========================productfunction================================================
     public function display() {
         global $sqsdb;
         $sqsdb->displayfood();
@@ -103,6 +103,14 @@
                         return false;
                     }
                 }
+    public function createorder($orderstatus,$totalprice) {
+                    global $sqsdb;
+                        if($sqsdb->createorderform( $orderstatus,$this->CustomerID,$totalprice)) {
+                            return true;
+                        } else {
+                            return 0;
+                        }
+                    }
     //====================orderfunction===============================
     public function displayorder() {
         global $sqsdb;
@@ -129,7 +137,12 @@
                 } else {
                     return false;
                 }
-            }   
+            }
+    public function orderID() {
+                global $sqsdb;
+                $sqsdb->getorderID($this->CustomerID);
+                return $sqsdb;
+            }      
 
 }
 ?>

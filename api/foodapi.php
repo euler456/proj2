@@ -108,6 +108,32 @@ if(empty($request->query->all())) {
             $response->setStatusCode(400);
         }
     }
+    elseif($request->query->getAlpha('action') == 'createorder') {
+        $res = $session->get('sessionObj')->isLoggedIn();
+        if($res == false) {
+                    $response->setStatusCode(403);
+                }
+        else{
+            if(
+                $request->request->has('orderstatus') and
+            $request->request->has('totalprice')   ) {
+           $res = $session->get('sessionObj')->createorder(
+            $request->request->get('orderstatus'),
+                $request->request->get('totalprice')
+            );
+             if($res === true) {
+                 $response->setStatusCode(201);
+             } elseif($res === false) {
+                 $response->setStatusCode(403);
+             } elseif($res === 0) {
+                 $response->setStatusCode(500);
+             }
+            }
+            else {
+                $response->setStatusCode(400);
+            }
+                }
+    }
     if($request->getMethod() == 'DELETE') {           // delete queue, delete comment
         $response->setStatusCode(400);
     }

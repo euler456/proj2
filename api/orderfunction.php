@@ -49,10 +49,6 @@ exit(json_encode($result));
                     return false;
                 }
             }
-
-
-
-
     function orderquantityfood($F_ID,$foodname,$price,$quantity,$totalprice) {
       
         $sql = "INSERT INTO orderitem (F_ID,foodname,price,quantity,totalprice)  VALUES (:F_ID,:foodname,:price,:quantity,:totalprice);";
@@ -70,6 +66,17 @@ exit(json_encode($result));
             return false;
         }
     }
+
+    public function getorderID($CustomerID){
+        $sql = "SELECT max(orderID)  orderID FROM orderform where CustomerID=:CustomerID ";
+        $stmt = $this->dbconn->prepare($sql);
+        $stmt->bindParam(':CustomerID', $CustomerID, PDO::PARAM_INT);   
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+exit(json_encode($result));
+      
+    }
+    
 }
 
   
