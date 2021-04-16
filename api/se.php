@@ -143,6 +143,11 @@
                 $sqsdb->getorderID($this->CustomerID);
                 return $sqsdb;
             }      
-
+  //====================paymentfunction===============================
+  public function confirmorderform() {
+    global $sqsdb;
+    $sqsdb->getconfirmorderform($this->CustomerID);
+    return $sqsdb;
+}   
 }
 ?>

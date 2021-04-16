@@ -5,27 +5,25 @@
        <title>Test Forms</title>
        <meta charset="UTF-8">
        <link rel="stylesheet" href="style.css">
-       <script src="orderapp.js" defer></script>
+       <script src="paymentapp.js" defer></script>
      
 </head>
 
 <body>
-       <form action="#" method="POST" >
+       <form action="#" method="GET" >
         <table>
             <thead>
-                <th>F_id</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Quantity</th>
+                <th>Ordernumber</th>
+                <th>Ordertime</th>
+                <th>Totalprice</th>
             </thead>
-            <tbody class="tbody" id="orderform">
+            <tbody class="orderconfirmtbody" id="confirmorderform">
 
             </tbody>
         </table>
-       <button><a href="../app/payment.html">Confirm order</a></button>
        </form>
 
-       <button><a href="../app/product.html">products</a></button>
+       <button><a href="../app/orderform.html">products</a></button>
 </body>
 
 </html>
