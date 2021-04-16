@@ -38,7 +38,39 @@ if(empty($request->query->all())) {
         $response->setStatusCode(429);
     }
     if($request->getMethod() == 'POST') {             // register
-        $response->setStatusCode(400);
+        if($request->query->getAlpha('action') =='checkout') {    
+            if(
+                $request->request->has('cname') and
+                $request->request->has('ccnum') and
+            $request->request->has('expmonth')   and
+            $request->request->has('expyear') and
+            $request->request->has('cvv')    ) {
+           $res = $session->get('sessionObj')->checkout(
+            $request->request->get('cname'),
+                $request->request->get('ccnum'),
+                $request->request->get('expmonth'),    
+                $request->request->get('expyear'),
+                $request->request->get('cvv')
+            );
+             if($res === true) {
+                 $response->setStatusCode(201);
+             } elseif($res === false) {
+                 $response->setStatusCode(403);
+             } elseif($res === 0) {
+                 $response->setStatusCode(500);
+             }
+            }
+            else {
+                $response->setStatusCode(401);
+            }
+        }
+        elseif($request->query->getAlpha('action') == 'checkoutupdate') {
+            $res = $session->get('sessionObj')->checkoutupdate( $request->request->get('orderID'));
+    }
+   
+        else{
+            $response->setStatusCode(400);
+        }
     }
     if($request->getMethod() == 'DELETE') {           // delete queue, delete comment
         $response->setStatusCode(400);
@@ -51,6 +83,7 @@ if(empty($request->query->all())) {
                 $res = $session->get('sessionObj')->confirmorderform();
     
         }
+       
         else {
             $response->setStatusCode(418);
         }

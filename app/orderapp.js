@@ -12,7 +12,7 @@ fetch('http://localhost/apitesting/api/orderapi.php?action=displayorderfood',
         output+=`<tr>
         <td class='fd-id'>${response[i].F_ID}</td>
         <td class='fd-name'>${response[i].foodname}</td>
-        <td ><img src='../images/${response[i].image }' style="width: 100px; height: 100px;"></td>
+        <td ><img src='../images/${response[i].image}' style="width: 100px; height: 100px;"></td>
         <td class='price'>${response[i].price}</td>
         <td><input type="number" class="fd-value" name="quantity" value="0" min="0" max="50"></td>
         <td>${response[i].options}</td>
@@ -118,9 +118,30 @@ $(document).ready(function(){
         document.querySelector('.showtbody').innerHTML = output;
     }).catch(error=>console.error(error));
       },200);
-    });    
-
-
+    }); 
+    $("#sumtotalprice").click(function() {
+        $("#ordernameid .btnorderid").trigger("click");
+        var fd = new FormData();
+        fd.append('orderID', col6 );
+      fetch('http://localhost/apitesting/api/orderapi.php?action=sumtotalprice', 
+      {
+          method: 'POST',
+          body: fd,
+          credentials: 'include'
+      })
+     .then(function(headers) {
+          if(headers.status == 400) {
+              console.log('sumtotalprice');
+              return;
+          }
+       
+          if(headers.status == 201) {
+              console.log('fail to sum');
+              return;
+          }
+      })
+      .catch(function(error) {console.log(error)});
+    });
 });
   
 

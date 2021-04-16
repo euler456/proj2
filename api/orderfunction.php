@@ -29,7 +29,16 @@
 exit(json_encode($result));
       
     }
-        
+    public function sumtotalpriceff($orderID){
+        $sql = "UPDATE orderform SET orderform.totalprice = (SELECT SUM(orderitem.totalprice) FROM orderitem  WHERE orderitem.orderID = :orderID)
+        WHERE orderform.orderID= :orderID;";
+        $stmt = $this->dbconn->prepare($sql);
+        $stmt->bindParam(':orderID', $orderID, PDO::PARAM_INT);   
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+exit(json_encode($result));
+      
+    }
     public function displayshoworderform($orderID){
                 $sql = "SELECT * FROM orderitem where orderID=:orderID;";
                 $stmt = $this->dbconn->prepare($sql);

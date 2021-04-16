@@ -47,6 +47,10 @@ if(empty($request->query->all())) {
                 $res = $session->get('sessionObj')->showorderform($request->request->get('orderID'));
                 return $res;  
             }
+        elseif($request->query->getAlpha('action') == 'sumtotalprice') {    
+                $res = $session->get('sessionObj')->sumtotalprice($request->request->get('orderID'));
+                return $res;  
+        }
         elseif($request->query->getAlpha('action') == 'orderdelete') {    
                 $res = $session->get('sessionObj')->orderdelete(
                      $request->request->get('orderitem_ID'));

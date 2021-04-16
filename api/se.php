@@ -149,5 +149,23 @@
     $sqsdb->getconfirmorderform($this->CustomerID);
     return $sqsdb;
 }   
+public function sumtotalprice($orderID) {
+    global $sqsdb;
+    $sqsdb->sumtotalpriceff($orderID);
+    return $sqsdb;
+} 
+public function checkout($cname,$ccnum,$expmonth,$expyear,$cvv) {
+    global $sqsdb;
+    if($sqsdb->checkoutff($this->CustomerID,$cname,$ccnum,$expmonth,$expyear,$cvv)) {
+        return true;
+    } else {
+        return false;
+    }
+}    
+public function checkoutupdate($orderID) {
+    global $sqsdb;
+    $sqsdb->checkoutupdateff($orderID);
+    return $sqsdb;
+} 
 }
 ?>
