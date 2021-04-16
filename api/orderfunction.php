@@ -30,9 +30,10 @@ exit(json_encode($result));
       
     }
         
-    public function displayshoworderform(){
-                $sql = "SELECT * FROM orderitem";
+    public function displayshoworderform($orderID){
+                $sql = "SELECT * FROM orderitem where orderID=:orderID;";
                 $stmt = $this->dbconn->prepare($sql);
+                $stmt->bindParam(':orderID', $orderID, PDO::PARAM_INT);   
                 $stmt->execute();
                 $result = $stmt->fetchAll();
         exit(json_encode($result));
@@ -49,16 +50,17 @@ exit(json_encode($result));
                     return false;
                 }
             }
-    function orderquantityfood($F_ID,$foodname,$price,$quantity,$totalprice) {
+    function orderquantityfood($F_ID,$foodname,$price,$quantity,$totalprice,$orderID) {
       
-        $sql = "INSERT INTO orderitem (F_ID,foodname,price,quantity,totalprice)  VALUES (:F_ID,:foodname,:price,:quantity,:totalprice);";
+        $sql = "INSERT INTO orderitem (F_ID,foodname,price,quantity,totalprice,orderID)  VALUES (:F_ID,:foodname,:price,:quantity,:totalprice,:orderID);";
         $stmt = $this->dbconn->prepare($sql);
       //  $stmt->bindParam(':F_ID', $F_ID, PDO::PARAM_INT);  
       $stmt->bindParam(':F_ID', $F_ID, PDO::PARAM_INT);   
         $stmt->bindParam(':foodname', $foodname, PDO::PARAM_STR);
         $stmt->bindParam(':price', $price, PDO::PARAM_INT);   
         $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);   
-        $stmt->bindParam(':totalprice', $totalprice, PDO::PARAM_INT);    
+        $stmt->bindParam(':totalprice', $totalprice, PDO::PARAM_INT);   
+        $stmt->bindParam(':orderID', $orderID, PDO::PARAM_INT);    
         $result = $stmt->execute();
         if($result === true) {
             return true;

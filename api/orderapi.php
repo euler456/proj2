@@ -44,7 +44,7 @@ if(empty($request->query->all())) {
                    $response->setStatusCode(400);
             }
         elseif($request->query->getAlpha('action') == 'showorderform') {    
-                $res = $session->get('sessionObj')->showorderform();
+                $res = $session->get('sessionObj')->showorderform($request->request->get('orderID'));
                 return $res;  
             }
         elseif($request->query->getAlpha('action') == 'orderdelete') {    
@@ -63,7 +63,8 @@ if(empty($request->query->all())) {
                         $request->request->get('foodname'),
                         $request->request->get('price'),    
                         $request->request->get('quantity'),
-                        $request->request->get('totalprice')   
+                        $request->request->get('totalprice'),
+                        $request->request->get('orderID')   
                     );
                     if($res === true) {
                         $response->setStatusCode(201);
