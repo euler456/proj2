@@ -50,7 +50,7 @@ $(document).ready(function(){
     var col6;
     $("#ordernameid").on('click', '.btnorderid', function() {
         var currentRow = $(this).closest("tr");
-         col6 = currentRow.find(".orderid").html(); 
+        col6 = currentRow.find(".orderid").html();
       });
     
     $("#orderform").on('click', '.btnSelect', function() {
