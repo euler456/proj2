@@ -22,9 +22,6 @@ fetch('http://localhost/apitesting/api/orderapi.php?action=displayorderfood',
     document.querySelector('.ordertbody').innerHTML = output;
 }).catch(error=>console.error(error));
 }
-
-
-
 document.getElementById('ordernameid').innerHTML=fetchorderID();
 function fetchorderID(){
 fetch('http://localhost/apitesting/api/orderapi.php?action=orderID',
@@ -76,8 +73,9 @@ $(document).ready(function(){
           credentials: 'include'
       })
      .then(function(headers) {
-          if(headers.status == 400) {
+          if(headers.status == 403) {
               console.log('fail to add');
+              alert('failed');
               return;
           }
        
